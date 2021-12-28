@@ -1,0 +1,128 @@
+<h2>DataFrame</h2>
+<html>
+ <head></head>
+ <body>
+  <p>You are already familiar with <code class="language-python">Series</code>, a one-dimensional data structure in <code class="language-python">pandas</code>. In this topic, you will learn about another key pandas data structure, the DataFrame.</p> 
+  <p>Don't forget to import the pandas library:</p> 
+  <pre><code class="language-python">import pandas as pd</code></pre> 
+  <h5 style="text-align: center;">What is DataFrame</h5> 
+  <p>DataFrame is a table with columns. Each element of a <code class="language-python">Series</code>, each row of a DataFrame is labeled with an index.</p> 
+  <p>Here is an example of a DataFrame object <code class="language-python">students</code> that stores information about four students:</p> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/bf8457f5-545c-4df6-8ed0-042253696075/"></p> 
+  <p>This DataFrame has three columns, namely <code class="language-python">First name</code>, <code class="language-python">Family name</code>, and <code class="language-python">Age</code>. The four rows are labeled with indexes 0, 1, 2, 3.</p> 
+  <p>Alright, so how to create it?</p> 
+  <h5 style="text-align: center;">Creating a DataFrame: reading data from a file</h5> 
+  <p>Often you want to use the data from a file that is stored on your computer. pandas has functions that allow you to do it.</p> 
+  <p>One of the most popular text formats is .csv, which stands for comma-separated values. This format can store tabular data; each row in a file represents a row in a table, and values corresponding to different columns are separated by commas.</p> 
+  <p>Suppose the data about the students is stored in a students.csv file:</p> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/fa59775c-1dd3-4407-945a-aeb77813f220/"></p> 
+  <p>To transfer a student DataFrame, you can use a <code class="language-python">read_csv()</code> function from pandas. This function takes the path to the file and some additional arguments that can be helpful to read the data correctly.</p> 
+  <p>If we want to read the file as it is, we can simply write:</p> 
+  <pre><code class="language-python">students = pd.read_csv('students.csv')
+students</code></pre> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/3f212450-3399-4f06-b376-876fb509036c/"></p> 
+  <p>We won't list all additional parameters that <code class="language-python">read_csv</code> can take here, but here are the most essential ones:</p> 
+  <ul> 
+   <li><em>sep</em> — delimiter that is used (default ',').</li> 
+   <li><em>header</em> — row number that stores the column headers. By default, pandas tries to infer them from the first row.</li> 
+   <li><em>names —</em> a list of column names. If you want to use other column names, set <em>header=0</em> and pass a list of new column names with <em>names</em>.</li> 
+   <li><em>index_col</em> — columns in your file that are used as row labels of the DataFrame. It's set to None by default and the row numbers are used as indexes.</li> 
+   <li><em>usecols —</em> a list of column numbers or column names to be read. By default, the DataFrame reads every column.</li> 
+  </ul> 
+  <p>Let's read the same file again, but this time we only use the first and the last column, giving them different names:</p> 
+  <pre><code class="language-python">students = pd.read_csv('students.csv', usecols=[0,2],header=0, names=['name', 'age'])
+students</code></pre> 
+  <p style="text-align: center;"><img alt="" height="218" src="https://ucarecdn.com/bb3ccaa7-33ec-4d87-8bea-03e82f9675bc/" width="180"></p> 
+  <p>You can use the <code class="language-python">read_excel()</code> function to read the data from a spreadsheet. It has a similar interface but it reads .xlsx files. To read a JSON file, use <code class="language-python">read_json()</code> instead.</p> 
+  <h5 style="text-align: center;">Creating a DataFrame from other data structures</h5> 
+  <p>It's also possible to convert other data structures, e.g. dictionaries, lists, or NumPy arrays, to a DataFrame object. You need to pass the data to the DataFrame constructor.</p> 
+  <p>For instance, suppose you have a nested list containing information about students:</p> 
+  <pre><code class="language-python">students_list = [['Anna', 'Smith', 21],
+                 ['Bob', 'Jones', 20],
+                 ['Maria', 'Williams', 25],
+                 ['Jack', 'Brown', 22]]</code></pre> 
+  <p>We can easily turn it into a DataFrame:</p> 
+  <pre><code class="language-python">students = pd.DataFrame(students_list, columns = ['First name', 'Family Name', 'Age'])
+students</code></pre> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/b989ce70-40cd-43ac-b7ce-1c297dd46854/"></p> 
+  <p>We could additionally specify the <code class="language-python">index</code> instead of the default 0, 1, 2, ... with the index argument. Let's try that:</p> 
+  <pre><code class="language-python">students_number = [100, 200, 300, 400]
+students = pd.DataFrame(students_list, 
+                        columns = ['First name', 'Family Name', 'Age'],
+                        index = students_number)
+students</code></pre> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/03bb55b8-d7f5-45e3-adfc-1e038b7aeaca/"></p> 
+  <p>Creating a DataFrame from a nested dictionary, index and column names will be automatically inferred from the dictionary keys. Take a look at the example:</p> 
+  <pre><code class="language-python"># This is a nested dictionary representing the students table
+students_dict = {'First name': {100: 'Anna', 
+                                200: 'Bob', 
+                                300: 'Maria',
+                                400: 'Jack'},
+                 
+                 'Family name': {100: 'Smith', 
+                                 200: 'Jones',
+                                 300: 'Williams',
+                                 400: 'Brown'},
+                 'Age': {100: 21, 
+                         200: 20, 
+                         300: 25,
+                         400: 22}}
+
+students = pd.DataFrame(students_dict)
+students</code></pre> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/c4c7e70c-1b28-4f16-8e02-970e73810487/"></p> 
+  <h5 style="text-align: center;">First glance at the data</h5> 
+  <p>Imagine that you've just loaded your data into a DataFrame and you can't wait to start exploring it.</p> 
+  <p>To check how many rows and columns a frame has, you can access the <code class="language-python">shape</code> attribute. It contains a tuple with two values, the dimensions along the two axes. For example, in our student DataFrame, there're four rows and three columns:</p> 
+  <pre><code class="language-python">students.shape
+# (4, 3)</code></pre> 
+  <p>You might also want to take a look at your data. The DataFrame may be too large to print out. In this case, use <code class="language-python">head()</code> and <code class="language-python">tail()</code> methods. They will print the first or the last five rows of the DataFrame respectively. If you want a different number of rows displayed, just specify it in the brackets. Let's print out just 2 first rows:</p> 
+  <pre><code class="language-python">students.head(2)</code></pre> 
+  <p style="text-align: center;"><img alt="" height="128" src="https://ucarecdn.com/d342ef6a-f745-4f3c-9598-4d4f328efeb7/" width="360"></p> 
+  <p>You can also access each of the DataFrame's columns separately by putting the name of the column in the square brackets after the name of the DataFrame. Note that each column of a DataFrame is a <code class="language-python">Series</code>:</p> 
+  <pre><code class="language-python">students['Age']
+# 0    21
+# 1    20
+# 2    25
+# 3    22
+# Name: Age, dtype: int64</code></pre> 
+  <p>If you need to access several columns at once, just put their names on a list. Let's take a look at the first and last columns only. Note that a resulting table is a DataFrame object:</p> 
+  <pre><code class="language-python">students[['First name', 'Age']]</code></pre> 
+  <p style="text-align: center;"><img alt="" height="194" src="https://ucarecdn.com/10d3761c-9225-4b8e-9bb1-d3713542d1ef/" width="202"></p> 
+  <p>Note that if you want to get a single column from a DataFrame as another DataFrame object but not Series, you should put the name of the columns in double square brackets:</p> 
+  <pre><code class="language-python">students[['Age']]</code></pre> 
+  <p style="text-align: center;"><img alt="" height="185" src="https://ucarecdn.com/21a0596d-345f-4890-8019-56a2f0f5edba/" width="96"></p> 
+  <p>If you need to access the data in a particular column itself without the indexes, you can use the <code class="language-python">values</code> attribute. Then, you'll get a NumPy array instead of a <code class="language-python">Series</code> or a DataFrame:</p> 
+  <pre><code class="language-python">students['Age'].values
+# array([21, 20, 25, 22], dtype=int64)
+
+students[['First name', 'Age']].values
+# array([['Anna', 21],
+#        ['Bob', 20],
+#        ['Maria', 25],
+#        ['Jack', 22]], dtype=object)</code></pre> 
+  <h5 style="text-align: center;">Saving a DataFrame to a file</h5> 
+  <p>Once you are done with a DataFrame, you can easily save it to a file on your computer. Just like with reading data from different file formats, pandas implements methods to save the DataFrame in various formats: <code class="language-python">to_csv</code>, <code class="language-python">to_excel</code> and <code class="language-python">to_json</code>. They are alike so let's write a table in a .csv file.</p> 
+  <p><code class="language-python">to_csv()</code> method can take a lot of arguments, but the most important ones are the following:</p> 
+  <ul> 
+   <li>path to the file where the DataFrame should be stored.</li> 
+   <li><em>sep —</em> delimiter to use (default ',')</li> 
+   <li><em>header —</em> stores the column names (default <code class="language-python">True</code>). You can also pass a list of column names different from the ones that the DataFrame has.</li> 
+   <li><em>index —</em> whether to write index (default <code class="language-python">True</code>)</li> 
+   <li><em>columns</em> — columns to write. By default, all columns are used, but you can pass a list of column names to use only part of them.</li> 
+  </ul> 
+  <p>If we want to write the first and the second columns of the student DataFrame to the <em>student_names.csv</em> file, without index and with tabulation as a delimiter. This can be done as follows:</p> 
+  <pre><code class="language-python">students.to_csv('student_names.csv', sep='\t', columns=['First name', 'Family name'], index=False)</code></pre> 
+  <p>Here is the resulting file:</p> 
+  <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/83e2ee37-147f-4658-b12b-b2234a38674a/"></p> 
+  <h5 style="text-align: center;">Conclusions</h5> 
+  <p> </p> 
+  <ul> 
+   <li>DataFrame is a two-dimensional data structure. It's useful to store tabular data with columns of different data types.</li> 
+   <li>Row names in a DataFrame are called indexes.</li> 
+   <li>Each column of a DataFrame is a <code class="language-python">Series</code>.</li> 
+   <li>A DataFrame can be created by reading data from a file (e.g., .csv), or by converting other data structures into a DataFrame.</li> 
+   <li><code class="language-python">head()</code> and <code class="language-python">tail()</code> methods allow one to see the first and the last couple of rows of a DataFrame.</li> 
+  </ul>
+ </body>
+</html>

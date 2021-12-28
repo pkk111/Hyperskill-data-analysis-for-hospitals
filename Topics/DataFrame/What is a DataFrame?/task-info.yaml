@@ -1,0 +1,20 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Each column of a DataFrame is a Series.
+- text: DataFrame represents tabular data.
+- text: DataFrame can only have columns of a single data type.
+- text: Rows of a DataFrame are labeled.
+- text: You can easily load data into a DataFrame from various data formats.
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10934#comment
+status: Solved
+record: -1

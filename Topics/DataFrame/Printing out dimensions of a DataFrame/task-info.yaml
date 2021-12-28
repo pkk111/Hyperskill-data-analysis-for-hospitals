@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import pandas as pd
+
+
+    def print_dim(df):
+        pass
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10941#comment
+status: Unchecked
+record: -1

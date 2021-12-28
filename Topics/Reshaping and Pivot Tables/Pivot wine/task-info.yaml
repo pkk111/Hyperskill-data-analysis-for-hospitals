@@ -1,0 +1,19 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: pd.pivot_table(df, index='variety', columns='country', values='points')
+- text: df.pivot_table(df, index='variety', columns='points', values='country', aggfunc='mean')
+- text: pd.pivot_table(df, index='variety', columns='country', values='points', aggfunc='mean')
+- text: df.pivot_table(df, index='country', columns='variety', values='points', aggfunc='mean')
+message_correct: Congratulations!
+message_incorrect: Incorrect solution
+files:
+- name: main.py
+  visible: true
+  text: |+
+    #  You can experiment here, it won’t be checked
+
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12613#comment
+status: Solved
+record: -1
